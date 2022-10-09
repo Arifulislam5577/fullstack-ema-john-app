@@ -16,7 +16,11 @@ const Header = () => {
         <div className="flex items-center justify-between">
           <div className="logo">
             <Link to="/">
-              <img src="images/Logo.svg" alt="emajhon" className="h-8" />
+              <img
+                src="https://res.cloudinary.com/arif5577/image/upload/v1665313084/Ema-John-FullStack/Logo_fdetcz.svg"
+                alt="emajhon"
+                className="h-8"
+              />
             </Link>
           </div>
           <nav className="flex items-center gap-5 relative">

@@ -1,5 +1,5 @@
 import React from "react";
-import { useLoaderData } from "react-router-dom";
+import { Link, useLoaderData } from "react-router-dom";
 
 const ProductDetails = () => {
   const { data } = useLoaderData();
@@ -52,27 +52,17 @@ const ProductDetails = () => {
                 Related Product
               </h2>
               <div className="flex items-center justify-between gap-5">
-                <div>
-                  <img
-                    src="https://assets.adidas.com/images/h_840,f_auto,q_auto,fl_lossy,c_fill,g_auto/fbaf991a78bc4896a3e9ad7800abcec6_9366/Ultraboost_22_Shoes_Black_GZ0127_01_standard.jpg"
-                    alt=""
-                    className="w-full"
-                  />
-                </div>
-                <div>
-                  <img
-                    src="https://assets.adidas.com/images/h_840,f_auto,q_auto,fl_lossy,c_fill,g_auto/fbaf991a78bc4896a3e9ad7800abcec6_9366/Ultraboost_22_Shoes_Black_GZ0127_01_standard.jpg"
-                    alt=""
-                    className="w-full"
-                  />
-                </div>
-                <div>
-                  <img
-                    src="https://assets.adidas.com/images/h_840,f_auto,q_auto,fl_lossy,c_fill,g_auto/fbaf991a78bc4896a3e9ad7800abcec6_9366/Ultraboost_22_Shoes_Black_GZ0127_01_standard.jpg"
-                    alt=""
-                    className="w-full"
-                  />
-                </div>
+                {data.relatedProduct.map((relPro) => (
+                  <div key={relPro._id}>
+                    <Link to={`/product/${relPro._id}`}>
+                      <img
+                        src={relPro.img}
+                        alt={relPro.name}
+                        className="w-full"
+                      />
+                    </Link>
+                  </div>
+                ))}
               </div>
             </div>
           </div>

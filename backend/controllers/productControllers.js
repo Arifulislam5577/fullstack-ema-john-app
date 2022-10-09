@@ -73,11 +73,21 @@ export const getProductById = async (req, res, next) => {
     if (!product) {
       throw error("Product not found", 400);
     }
+
+    const findByCategory = await ProductModel.find({
+      category: product.category,
+    });
+
+    const relatedProduct = findByCategory
+      .filter((pd) => pd._id !== req.params.id)
+      .sort(() => 0.5 - Math.random())
+      .slice(0, 3);
     return res.status(200).json({
       status: 200,
       success: true,
       data: {
         product,
+        relatedProduct,
       },
     });
   } catch (error) {

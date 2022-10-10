@@ -2,8 +2,10 @@ import React from "react";
 import { Link, useLoaderData } from "react-router-dom";
 
 const ProductDetails = () => {
-  const { data } = useLoaderData();
-  const { name, img, seller, category, stock, price } = data.product;
+  const {
+    data: { product, relatedProduct },
+  } = useLoaderData();
+  const { name, img, seller, category, stock, price } = product;
 
   return (
     <section className="py-5">
@@ -52,7 +54,7 @@ const ProductDetails = () => {
                 Related Product
               </h2>
               <div className="flex items-center justify-between gap-5">
-                {data.relatedProduct.map((relPro) => (
+                {relatedProduct.map((relPro) => (
                   <div key={relPro._id}>
                     <Link to={`/product/${relPro._id}`}>
                       <img

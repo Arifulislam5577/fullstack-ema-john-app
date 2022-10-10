@@ -1,4 +1,5 @@
 import ProductModel from "../model/productModel.js";
+import { sliderItems } from "../services/sliderItems.js";
 import { error } from "../utils/error.js";
 
 /**
@@ -16,14 +17,16 @@ import { error } from "../utils/error.js";
 export const getAllProducts = async (req, res, next) => {
   try {
     const products = await ProductModel.find();
-    const categories = await ProductModel.distinct("category");
-
     if (products.length > 0) {
+      const categories = await ProductModel.distinct("category");
+      const sliderProducts = await sliderItems(categories);
+
       return res.status(200).json({
         status: 200,
         success: true,
         data: {
           products,
+          sliderProducts,
         },
       });
     } else {

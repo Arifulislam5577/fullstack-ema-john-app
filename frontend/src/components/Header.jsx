@@ -69,9 +69,12 @@ const Header = () => {
                 <h2 className="text-sm uppercase tracking-wider">$2300</h2>
               </div>
               <div className="flex items-center gap-1 flex-col">
-                <button className="px-3 uppercase text-xs w-32 py-2 bg-slate-900 text-white">
+                <Link
+                  to="/cart"
+                  className="px-3 uppercase text-center text-xs w-32 py-2 bg-slate-900 text-white"
+                >
                   Order now
-                </button>
+                </Link>
               </div>
             </div>
           </div>

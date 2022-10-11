@@ -1,19 +1,17 @@
 import ProductModel from "../model/productModel.js";
+import { createProductInDB, findProduct } from "../services/productService.js";
 import { sliderItems } from "../services/sliderItems.js";
 import { error } from "../utils/error.js";
 
 /**
- * 
-[
-[0]   'Bag',
-[0]   'Bottle',
-[0]   'Cap',
-[0]   'Earphones',
-[0]   "Men's Boot",
-[0]   "Men's Pants",
-[0]   "Men's Sneaker"
-[0] ]
- */
+ 'Bag',
+ 'Bottle',
+ 'Cap',
+ 'Earphones',
+ "Men's Boot",
+ "Men's Pants",
+ "Men's Sneaker"
+*/
 export const getAllProducts = async (req, res, next) => {
   try {
     const products = await ProductModel.find();
@@ -51,7 +49,7 @@ export const createProduct = async (req, res, next) => {
     quantity,
   } = req.body;
 
-  const product = new ProductModel({
+  const product = {
     name,
     category,
     img,
@@ -62,8 +60,16 @@ export const createProduct = async (req, res, next) => {
     ratingsCount,
     stock,
     quantity,
-  });
-  await product.save();
+  };
+  const products = await createProductInDB(product);
+
+  if (products) {
+    return res.status(201).json({
+      status: 201,
+      success: true,
+      message: "Product Created successfully",
+    });
+  }
   try {
   } catch (error) {
     next(error);
@@ -72,15 +78,8 @@ export const createProduct = async (req, res, next) => {
 
 export const getProductById = async (req, res, next) => {
   try {
-    const product = await ProductModel.findById(req.params.id);
-    if (!product) {
-      throw error("Product not found", 400);
-    }
-
-    const findByCategory = await ProductModel.find({
-      category: product.category,
-    });
-
+    const product = await findProduct("id", req.params.id);
+    const findByCategory = await findProduct("category", product.category);
     const relatedProduct = findByCategory
       .filter((pd) => pd._id !== req.params.id)
       .sort(() => 0.5 - Math.random())

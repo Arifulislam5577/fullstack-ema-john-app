@@ -1,12 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link, useLoaderData } from "react-router-dom";
+import { DataContext } from "../Layout/Layout";
 
 const ProductDetails = () => {
   const {
     data: { product, relatedProduct },
   } = useLoaderData();
-  const { name, img, seller, category, stock, price } = product;
-
+  const { name, img, seller, category, stock, price, _id } = product;
+  const { handleAddToCart } = useContext(DataContext);
   return (
     <section className="py-5">
       <div className="container">
@@ -41,10 +42,13 @@ const ProductDetails = () => {
             </p>
 
             <div className="my-3 flex items-center gap-5">
-              <button className="uppercase text-sm py-3 px-5 bg-slate-900 text-white">
+              <button
+                className="uppercase text-sm py-3 px-5 bg-slate-900 text-white"
+                onClick={() => handleAddToCart(_id)}
+              >
                 add to cart
               </button>
-              <button className="uppercase text-sm py-3 px-5 bg-orange-500 text-white">
+              <button className="uppercase text-sm py-3 px-5 border border-gray-500 text-slate-900">
                 add to wishlist
               </button>
             </div>

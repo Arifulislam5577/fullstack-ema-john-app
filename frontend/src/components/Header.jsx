@@ -1,5 +1,7 @@
 import React, { useContext, useState } from "react";
-import { BsCart3 } from "react-icons/bs";
+import { BsCart3, BsHeart } from "react-icons/bs";
+import { FaUserAlt } from "react-icons/fa";
+import { ImCross } from "react-icons/im";
 import { Link } from "react-router-dom";
 import { DataContext } from "../Layout/Layout";
 import CartItem from "./CartItem";
@@ -11,28 +13,37 @@ const Header = () => {
     setShowCart((prev) => !prev);
   };
 
+  showCart &&
+    window.addEventListener("scroll", () => {
+      setShowCart(false);
+    });
+
   return (
     <header className="header bg-primary py-6 ">
       <div className="container relative">
         <div className="flex items-center justify-between">
           <div className="logo">
             <Link to="/">
-              {/* <img
-                src="https://res.cloudinary.com/arif5577/image/upload/v1665313084/Ema-John-FullStack/Logo_fdetcz.svg"
-                alt="emajhon"
-                className="h-8"
-              /> */}
               <p className="font-bold text-xl">
                 Ema-<span className="text-orange-500">John</span>
               </p>
             </Link>
           </div>
           <nav className="flex items-center gap-5 relative">
-            <button className="flex text-slate-500" onClick={handleShowCart}>
-              <BsCart3 size="20" />
-              <span className="text-xs font-bold text-orange-500 -mt-2">
-                {totalAmount}
+            <button
+              className="flex text-gray-500 items-center justify-center rounded-full p-2 relative"
+              onClick={handleShowCart}
+            >
+              <BsCart3 color="gray" />
+              <span className="text-xs font-bold text-orange-500 -top-1 -right-3  absolute bg-gray-300 w-5 h-5 flex items-center justify-center rounded-full">
+                {totalAmount < 10 ? "0" + totalAmount : totalAmount}
               </span>
+            </button>
+            <button>
+              <BsHeart color="gray" />
+            </button>
+            <button>
+              <FaUserAlt color="gray" />
             </button>
           </nav>
         </div>
@@ -42,10 +53,10 @@ const Header = () => {
           } transition-all duration-300`}
         >
           <button
-            className="w-10 h-10 absolute left-0 top-0 bg-orange-500 flex items-center justify-center text-white text-sm"
+            className="w-10 h-10 absolute left-0 top-0 bg-slate-900 flex items-center justify-center  text-sm"
             onClick={handleShowCart}
           >
-            X
+            <ImCross size="10" color="white" />
           </button>
           <div className="flex flex-col justify-between  h-full">
             <div className="cart">
@@ -54,9 +65,13 @@ const Header = () => {
               </h2>
               <hr className="my-2 border " />
               <div className="my-3 flex flex-col gap-5">
-                {cart?.map((item) => (
-                  <CartItem key={item._id} {...item} />
-                ))}
+                {cart?.length <= 0 ? (
+                  <h1 className="text-center text-xl my-3 font-bold text-gray-500 uppercase">
+                    Empty Cart
+                  </h1>
+                ) : (
+                  cart?.map((item) => <CartItem key={item._id} {...item} />)
+                )}
               </div>
             </div>
             <div className="flex items-center justify-between">

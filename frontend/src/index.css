@@ -25,3 +25,24 @@ html,
 .box-shadow {
   box-shadow: 0 0 10px 1000px rgba(0, 0, 0, 0.3);
 }
+
+.spinner {
+  margin: 5rem auto;
+  text-align: center;
+}
+.spinner img {
+  height: 6rem;
+  width: 6rem;
+  fill: orangered;
+  animation: rotate 2s infinite linear;
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}

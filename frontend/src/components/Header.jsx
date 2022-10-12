@@ -1,41 +1,37 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { BsCart3 } from "react-icons/bs";
-import { FaHome } from "react-icons/fa";
-import { Link, NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { DataContext } from "../Layout/Layout";
 import CartItem from "./CartItem";
 
 const Header = () => {
+  const { totalAmount, cart, totalPrice } = useContext(DataContext);
   const [showCart, setShowCart] = useState(false);
   const handleShowCart = () => {
     setShowCart((prev) => !prev);
   };
 
   return (
-    <header className="header bg-slate-900 py-5 ">
+    <header className="header bg-primary py-6 ">
       <div className="container relative">
         <div className="flex items-center justify-between">
           <div className="logo">
             <Link to="/">
-              <img
+              {/* <img
                 src="https://res.cloudinary.com/arif5577/image/upload/v1665313084/Ema-John-FullStack/Logo_fdetcz.svg"
                 alt="emajhon"
                 className="h-8"
-              />
+              /> */}
+              <p className="font-bold text-xl">
+                Ema-<span className="text-orange-500">John</span>
+              </p>
             </Link>
           </div>
           <nav className="flex items-center gap-5 relative">
-            <NavLink
-              to="/"
-              className={({ isActive }) =>
-                isActive ? "text-orange-500 " : "text-white"
-              }
-            >
-              <FaHome size="20" />
-            </NavLink>
-            <button className="flex text-white" onClick={handleShowCart}>
+            <button className="flex text-slate-500" onClick={handleShowCart}>
               <BsCart3 size="20" />
-              <span className="text-xs bg-orange-500 p-1 ml-1 text-white">
-                12
+              <span className="text-xs font-bold text-orange-500 -mt-2">
+                {totalAmount}
               </span>
             </button>
           </nav>
@@ -58,7 +54,9 @@ const Header = () => {
               </h2>
               <hr className="my-2 border " />
               <div className="my-3 flex flex-col gap-5">
-                <CartItem />
+                {cart?.map((item) => (
+                  <CartItem key={item._id} {...item} />
+                ))}
               </div>
             </div>
             <div className="flex items-center justify-between">
@@ -66,7 +64,9 @@ const Header = () => {
                 <h2 className="font-bold text-sm uppercase tracking-wider">
                   Total
                 </h2>
-                <h2 className="text-sm uppercase tracking-wider">$2300</h2>
+                <h2 className="text-sm uppercase tracking-wider">
+                  ${totalPrice}
+                </h2>
               </div>
               <div className="flex items-center gap-1 flex-col">
                 <Link

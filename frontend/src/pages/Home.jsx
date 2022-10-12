@@ -4,7 +4,7 @@ import ProductLayout from "../components/ProductLayout";
 import { DataContext } from "../Layout/Layout";
 
 const Home = () => {
-  const { products, sliderProducts } = useContext(DataContext);
+  const { products, sliderProducts = [] } = useContext(DataContext);
   return (
     <section className="home py-5 z-0">
       <div className="container">

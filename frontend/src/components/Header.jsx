@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { BsCart3, BsHeart } from "react-icons/bs";
-import { FaUserAlt } from "react-icons/fa";
+import { FaRegUser } from "react-icons/fa";
 import { ImCross } from "react-icons/im";
 import { Link } from "react-router-dom";
 import { DataContext } from "../Layout/Layout";
@@ -19,14 +19,12 @@ const Header = () => {
     });
 
   return (
-    <header className="header bg-primary py-6 ">
+    <header className="header bg-primary py-6 z-10">
       <div className="container relative">
         <div className="flex items-center justify-between">
-          <div className="logo">
+          <div className="logo bg-slate-900 rounded skew-y-12 p-2">
             <Link to="/">
-              <p className="font-bold text-xl">
-                Ema-<span className="text-orange-500">John</span>
-              </p>
+              <img src="images/Logo.svg" alt="" className="h-6 -skew-y-12" />
             </Link>
           </div>
           <nav className="flex items-center gap-5 relative">
@@ -35,7 +33,7 @@ const Header = () => {
               onClick={handleShowCart}
             >
               <BsCart3 color="gray" />
-              <span className="text-xs font-bold text-orange-500 -top-1 -right-3  absolute bg-gray-300 w-5 h-5 flex items-center justify-center rounded-full">
+              <span className="text-xs  text-white -top-1 -right-3  absolute bg-slate-900 w-5 h-5 flex items-center justify-center rounded-full">
                 {totalAmount < 10 ? "0" + totalAmount : totalAmount}
               </span>
             </button>
@@ -43,7 +41,7 @@ const Header = () => {
               <BsHeart color="gray" />
             </button>
             <button>
-              <FaUserAlt color="gray" />
+              <FaRegUser color="gray" />
             </button>
           </nav>
         </div>

@@ -6,7 +6,6 @@ import {
   addCart,
   calcTotal,
   deleteItem,
-  findProduct,
   getCart,
   manageQty,
   saveCart,
@@ -29,7 +28,10 @@ const Layout = () => {
     deleteItem(id, cart, setCart);
   };
   const totalPrice = calcTotal(cart, "price");
+  const shippingCharge = totalPrice > 500 ? 0 : 50;
+  const vatCharge = parseInt(totalPrice * 0.05);
   const totalAmount = calcTotal(cart, "quantity");
+  const total = parseInt(totalPrice + shippingCharge + vatCharge);
 
   saveCart(cart);
 
@@ -39,11 +41,14 @@ const Layout = () => {
         products,
         sliderProducts,
         handleAddToCart,
+        shippingCharge,
         cart,
         totalPrice,
+        vatCharge,
         totalAmount,
         handleQuantity,
         removeFromCart,
+        total,
       }}
     >
       <Header />

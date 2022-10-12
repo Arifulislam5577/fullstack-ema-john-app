@@ -7,7 +7,16 @@ import { useNavigate } from "react-router-dom";
 import { DataContext } from "../Layout/Layout";
 const Cart = () => {
   const navigate = useNavigate();
-  const { cart, removeFromCart, handleQuantity } = useContext(DataContext);
+  const {
+    cart,
+    removeFromCart,
+    handleQuantity,
+    totalPrice,
+    shippingCharge,
+    totalAmount,
+    vatCharge,
+    total,
+  } = useContext(DataContext);
 
   useEffect(() => {
     if (!cart.length) {
@@ -17,12 +26,12 @@ const Cart = () => {
   return (
     <section className="py-5">
       <div className="container">
-        <div className="grid grid-cols-5 gap-5 items-center justify-between">
-          <div className="col-span-3">
-            {cart.map((product) => (
+        <div className="grid lg:grid-cols-5 grid-cols-1 gap-5 items-center justify-between">
+          <div className="lg:col-span-3 w-full">
+            {cart?.map((product) => (
               <div
                 key={product._id}
-                className="border-b-2 py-3 flex items-center justify-between"
+                className="border-b border-gray-300 py-3 flex items-center justify-between"
               >
                 <img
                   src={product.img}
@@ -30,7 +39,7 @@ const Cart = () => {
                   alt={product.name}
                 />
                 <div>
-                  <h2 className="text-sm text-gray-500 mb-1">
+                  <h2 className="text-sm text-gray-500 mb-1 md:block hidden">
                     {product.name.split(" ").slice(0, 3).join(" ")}
                   </h2>
                   <h2 className="font-bold text-gray-500 text-sm">
@@ -69,13 +78,38 @@ const Cart = () => {
               </div>
             ))}
           </div>
-          <div className="col-span-2">
-            <p>
-              Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-              Blanditiis molestiae, ducimus maiores odit repellendus quo
-              exercitationem vel quis quisquam alias quos architecto sunt
-              inventore dolorum recusandae? Neque quo impedit laudantium!
-            </p>
+          <div className="lg:col-span-2 w-full border-l border-gray-300">
+            <div className="p-5">
+              <h2 className=" mb-3">Cart Totals</h2>
+              <div className="flex items-center justify-between border-t border-b py-3 text-gray-600 text-sm">
+                <h3>Total items</h3>
+                <h3>{totalAmount}</h3>
+              </div>
+              <div className="flex items-center justify-between border-t border-b py-3 text-gray-600 text-sm">
+                <h3>Subtotals</h3>
+                <h3>${totalPrice}</h3>
+              </div>
+              <div className="flex items-center justify-between border-t border-b py-3 text-gray-600 text-sm">
+                <h3>VAT+</h3>
+                <h3>${vatCharge}</h3>
+              </div>
+              <div className="flex items-center justify-between border-t border-b py-3 text-gray-600 text-sm">
+                <h3>Shipping</h3>
+                <h3>
+                  {shippingCharge === 0
+                    ? "Free shipping"
+                    : "$" + shippingCharge}
+                </h3>
+              </div>
+              <div className="flex items-center justify-between border-t border-b py-3 text-gray-600 text-sm">
+                <h3>Total</h3>
+                <h3>${total}</h3>
+              </div>
+
+              <button className="block py-3 px-6 bg-gray-300 text-gray-600 uppercase text-sm w-full">
+                order now
+              </button>
+            </div>
           </div>
         </div>
       </div>

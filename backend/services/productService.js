@@ -22,3 +22,14 @@ export const createProductInDB = async (product) => {
     throw error(error.message, 500);
   }
 };
+
+export const bestSellerProduct = async (products) => {
+  const bestRatings = await products.sort(
+    (a, b) => b.ratingsCount - a.ratingsCount
+  );
+
+  const bestSeller = await bestRatings
+    .sort((a, b) => b.ratings - a.ratings)
+    .slice(0, 4);
+  return bestSeller;
+};

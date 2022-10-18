@@ -4,7 +4,10 @@ import FallBackLoader from "./components/FallBackLoader";
 import Layout from "./Layout/Layout";
 import Cart from "./pages/Cart";
 import Home from "./pages/Home";
+import Login from "./pages/Login";
 import ProductDetails from "./pages/ProductDetails";
+import Signup from "./pages/Signup";
+import { rootRouter } from "./routes/rootRouter";
 
 const App = () => {
   const router = createBrowserRouter([
@@ -18,6 +21,8 @@ const App = () => {
           element: <Home />,
         },
         { path: "cart", element: <Cart /> },
+        { path: "login", element: <Login /> },
+        { path: "signin", element: <Signup /> },
         {
           path: "product/:id",
           loader: async ({ params }) =>

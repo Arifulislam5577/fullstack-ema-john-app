@@ -6,7 +6,7 @@ import { BiMinus } from "react-icons/bi";
 const CartItem = ({ _id, price, quantity, img, name, stock }) => {
   const { handleQuantity, removeFromCart } = useContext(DataContext);
   return (
-    <div className="flex gap-5 justify-between">
+    <div className="flex gap-5 justify-between ">
       <img src={img} alt={name} className="h-20 w-20 text-xs" />
       <div className="flex flex-col justify-between items-center">
         <button

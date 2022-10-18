@@ -22,7 +22,7 @@ const Cart = () => {
     if (!cart.length) {
       navigate("/");
     }
-  }, []);
+  }, [cart, navigate]);
   return (
     <section className="py-5">
       <div className="container">

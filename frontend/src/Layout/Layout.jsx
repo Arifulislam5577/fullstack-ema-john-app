@@ -12,9 +12,10 @@ import {
 } from "../utils/productSerivce";
 
 export const DataContext = createContext([]);
+
 const Layout = () => {
   const {
-    data: { products, sliderProducts },
+    data: { products, sliderProducts, bestSeller },
   } = useLoaderData();
 
   const [cart, setCart] = useState(getCart());
@@ -40,6 +41,7 @@ const Layout = () => {
       value={{
         products,
         sliderProducts,
+        bestSeller,
         handleAddToCart,
         shippingCharge,
         cart,

@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { Link, useLoaderData } from "react-router-dom";
-import { DataContext } from "../Layout/Layout";
+import { DataContext } from "../context/ContextApi";
 
 const ProductDetails = () => {
   const {

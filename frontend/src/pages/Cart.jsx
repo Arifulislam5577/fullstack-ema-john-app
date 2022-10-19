@@ -4,7 +4,7 @@ import { BiMinus } from "react-icons/bi";
 import { BsPlus } from "react-icons/bs";
 import { ImCross } from "react-icons/im";
 import { useNavigate } from "react-router-dom";
-import { DataContext } from "../Layout/Layout";
+import { DataContext } from "../context/ContextApi";
 const Cart = () => {
   const navigate = useNavigate();
   const {

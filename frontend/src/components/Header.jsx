@@ -3,7 +3,7 @@ import { BsCart3, BsHeart } from "react-icons/bs";
 import { FaRegUser } from "react-icons/fa";
 import { ImCross } from "react-icons/im";
 import { Link } from "react-router-dom";
-import { DataContext } from "../Layout/Layout";
+import { DataContext } from "../context/ContextApi";
 import CartItem from "./CartItem";
 
 const Header = () => {

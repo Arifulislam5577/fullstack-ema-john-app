@@ -1,8 +1,8 @@
 import React, { useContext } from "react";
-import { DataContext } from "../Layout/Layout";
 import { ImCross } from "react-icons/im";
 import { BsPlus } from "react-icons/bs";
 import { BiMinus } from "react-icons/bi";
+import { DataContext } from "../context/ContextApi";
 const CartItem = ({ _id, price, quantity, img, name, stock }) => {
   const { handleQuantity, removeFromCart } = useContext(DataContext);
   return (

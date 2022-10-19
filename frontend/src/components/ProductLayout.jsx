@@ -2,8 +2,8 @@ import React, { useContext } from "react";
 import { BsCart3, BsCartCheck } from "react-icons/bs";
 import { AiTwotoneStar } from "react-icons/ai";
 import { Link } from "react-router-dom";
-import { DataContext } from "../Layout/Layout";
 import { findProduct } from "../utils/productSerivce";
+import { DataContext } from "../context/ContextApi";
 const ProductLayout = ({ _id, name, price, img, ratings, ratingsCount }) => {
   const { handleAddToCart, cart } = useContext(DataContext);
 

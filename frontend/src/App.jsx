@@ -14,7 +14,6 @@ const App = () => {
     {
       path: "/",
       element: <Layout />,
-      loader: async () => await fetch("/api/v1/products"),
       children: [
         {
           index: true,

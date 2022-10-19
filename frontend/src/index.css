@@ -21,6 +21,7 @@ html,
 #root {
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
 }
 .box-shadow {
   box-shadow: 0 0 10px 1000px rgba(0, 0, 0, 0.3);

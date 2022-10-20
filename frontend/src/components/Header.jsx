@@ -7,7 +7,8 @@ import { DataContext } from "../context/ContextApi";
 import CartItem from "./CartItem";
 
 const Header = () => {
-  const { totalAmount, cart, totalPrice } = useContext(DataContext);
+  const { totalAmount, cart, totalPrice, loader, user } =
+    useContext(DataContext);
   const [showCart, setShowCart] = useState(false);
   const handleShowCart = () => {
     setShowCart((prev) => !prev);

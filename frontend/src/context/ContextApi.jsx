@@ -1,4 +1,6 @@
-import { createContext, useState } from "react";
+import { onAuthStateChanged } from "firebase/auth";
+import { createContext, useEffect, useState } from "react";
+import { auth } from "../authentication/firebase";
 import useFetchData from "../hooks/useFetchData";
 import {
   addCart,
@@ -11,6 +13,8 @@ import {
 export const DataContext = createContext();
 
 const DataProvider = ({ children }) => {
+  const [user, setUser] = useState({});
+  const [loader, setLoader] = useState(false);
   const { data, loading, error } = useFetchData("/api/v1/products");
   const products = data?.data?.products;
   const [cart, setCart] = useState(getCart());
@@ -31,11 +35,23 @@ const DataProvider = ({ children }) => {
 
   saveCart(cart);
 
+  useEffect(() => {
+    setLoader(true);
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setUser(user);
+        setLoader(false);
+      }
+    });
+  }, []);
+
   return (
     <DataContext.Provider
       value={{
         data,
         loading,
+        loader,
+        user,
         error,
         cart,
         handleQuantity,

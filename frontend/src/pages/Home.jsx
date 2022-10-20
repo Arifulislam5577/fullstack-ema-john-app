@@ -5,11 +5,6 @@ import { DataContext } from "../context/ContextApi";
 import FallBackLoader from "../components/FallBackLoader";
 const Home = () => {
   const { data, loading, error } = useContext(DataContext);
-  console.log(data);
-  // const { bestSeller, sliderProducts, products } = Object.keys(productData)
-  //   .length
-  //   ? productData
-  //   : {};
 
   if (loading) {
     return <FallBackLoader />;

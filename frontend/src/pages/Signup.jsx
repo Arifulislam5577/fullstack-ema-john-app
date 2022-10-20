@@ -1,31 +1,86 @@
-import React from "react";
-import { Link, NavLink } from "react-router-dom";
+import React, { useState } from "react";
+import {
+  createUserWithEmailAndPassword,
+  GoogleAuthProvider,
+  signInWithPopup,
+} from "firebase/auth";
+import { Link } from "react-router-dom";
+import { auth } from "../authentication/firebase";
 const Signup = () => {
+  const [loading, setLoading] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const googleProvider = new GoogleAuthProvider();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!email || !password) {
+      return;
+    } else {
+      try {
+        setLoading(true);
+        const user = await createUserWithEmailAndPassword(
+          auth,
+          email,
+          password
+        );
+        console.log(user);
+
+        setLoading(false);
+        setError("");
+      } catch (error) {
+        setLoading(false);
+
+        setError(error.message);
+      }
+    }
+  };
+  const handleGoogleSignIn = async () => {
+    try {
+      await signInWithPopup(auth, googleProvider);
+      setError("");
+    } catch (error) {
+      setError(error.message);
+    }
+  };
+
   return (
     <div className="flex flex-col max-w-md p-6 rounded-md sm:p-10 dark:bg-gray-900 dark:text-gray-100 mx-auto my-10">
       <div className="mb-8 text-center">
         <h1 className="my-3 text-4xl font-bold">Sign in</h1>
-        <p className="text-sm dark:text-gray-400">
-          Sign in to create your account
-        </p>
+        {error ? (
+          <p className="text-sm text-red-400">{error}</p>
+        ) : (
+          <p className="text-sm text-gray-400">
+            Sign in to create your account
+          </p>
+        )}
       </div>
-      <form className="space-y-12 ng-untouched ng-pristine ng-valid">
+      <form
+        className="space-y-12 ng-untouched ng-pristine ng-valid"
+        onSubmit={handleSubmit}
+      >
         <div className="space-y-4">
           <div>
-            <label for="email" className="block mb-2 text-sm">
+            <label htmlFor="email" className="block mb-2 text-sm">
               Email address
             </label>
             <input
               type="email"
               name="email"
               id="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
               placeholder="leroy@jenkins.com"
               className="w-full px-3 py-2 border rounded-md dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100"
             />
           </div>
           <div>
             <div className="flex justify-between mb-2">
-              <label for="password" className="text-sm">
+              <label htmlFor="password" className="text-sm">
                 Password
               </label>
             </div>
@@ -34,18 +89,30 @@ const Signup = () => {
               name="password"
               id="password"
               placeholder="*****"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
               className="w-full px-3 py-2 border rounded-md dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100"
             />
           </div>
         </div>
         <div className="space-y-2">
           <div>
-            <button
-              type="button"
-              className="w-full px-8 py-3 font-semibold rounded-md dark:bg-violet-400 dark:text-gray-900"
-            >
-              Sign in
-            </button>
+            {loading ? (
+              <button
+                type="submit"
+                className="w-full px-8 py-3 font-semibold rounded-md dark:bg-orange-400 text-white"
+              >
+                <div className="w-7 h-7 border-2 border-dashed rounded-full animate-spin border-white mx-auto"></div>
+              </button>
+            ) : (
+              <button
+                type="submit"
+                className="w-full px-8 py-3 font-semibold rounded-md bg-orange-400 text-white"
+              >
+                Sign in
+              </button>
+            )}
           </div>
           <p className="px-6 text-sm text-center dark:text-gray-400">
             Already have an account?
@@ -68,7 +135,11 @@ const Signup = () => {
             <div className="flex-1 h-px sm:w-16 dark:bg-gray-700"></div>
           </div>
           <div className="flex justify-center space-x-4">
-            <button aria-label="Log in with Google" className="p-3 rounded-sm">
+            <button
+              aria-label="Log in with Google"
+              className="p-3 rounded-sm"
+              onClick={handleGoogleSignIn}
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 32 32"

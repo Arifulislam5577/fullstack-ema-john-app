@@ -1,14 +1,12 @@
 import React, { useContext, useEffect, useState } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { auth } from "../authentication/firebase";
 import { DataContext } from "../context/ContextApi";
+import useRedirect from "../hooks/useRedirect";
 
 const Login = () => {
-  const { search } = useLocation();
-  const redirectInUrl = new URLSearchParams(search).get("redirect");
-  const redirect = redirectInUrl ? redirectInUrl : "/";
-
+  const redirect = useRedirect();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("");
@@ -29,7 +27,6 @@ const Login = () => {
         setError("");
         setEmail("");
         setPassword("");
-        navigate(from, { replace: true });
       } catch (error) {
         setLoading(false);
         const errorMessage = error.message

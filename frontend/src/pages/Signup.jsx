@@ -1,14 +1,14 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { auth } from "../authentication/firebase";
-import { ContextApi } from "../context/ContextApi";
+import { DataContext } from "../context/ContextApi";
 import useRedirect from "../hooks/useRedirect";
 
 const Signup = () => {
   const redirect = useRedirect();
   const navigate = useNavigate();
 
-  const { user, handleGoogleSignIn } = ContextApi();
+  const { user, handleGoogleSignIn, handleCreateUser } =
+    useContext(DataContext);
 
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("");

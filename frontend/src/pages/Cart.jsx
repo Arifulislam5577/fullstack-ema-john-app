@@ -55,7 +55,7 @@ const Cart = () => {
                     className="text-sm font-bold h-5 w-5 bg-gray-200 flex items-center justify-center"
                     onClick={() => {
                       handleQuantity(product._id, "decrement");
-                      product.quantity <= 1 && removeFromCart(product._id);
+                      product.quantity < 1 && removeFromCart(product._id);
                     }}
                   >
                     <BiMinus color="gray" />

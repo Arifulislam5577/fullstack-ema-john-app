@@ -5,7 +5,7 @@ import {
   signInWithPopup,
   signOut,
 } from "firebase/auth";
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import { auth } from "../authentication/firebase";
 import useFetchData from "../hooks/useFetchData";
 import {
@@ -20,7 +20,7 @@ export const DataContext = createContext();
 
 const DataProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [loader, setLoader] = useState(false);
+  const [loader, setLoader] = useState(true);
   const [cart, setCart] = useState(getCart());
 
   const googleProvider = new GoogleAuthProvider();
@@ -48,10 +48,12 @@ const DataProvider = ({ children }) => {
 
   // SIGNIN AND LOGIN
   const handleGoogleSignIn = async () => {
+    setLoader(true);
     await signInWithPopup(auth, googleProvider);
   };
 
   const handleCreateUser = async (email, password) => {
+    setLoader(true);
     await createUserWithEmailAndPassword(auth, email, password);
   };
 
@@ -64,15 +66,14 @@ const DataProvider = ({ children }) => {
   saveCart(cart);
 
   useEffect(() => {
-    setLoader(true);
     const subscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         setUser(user);
+        setLoader(false);
       } else {
         setUser(null);
       }
     });
-    setLoader(false);
 
     return () => subscribe();
   }, []);
@@ -91,6 +92,7 @@ const DataProvider = ({ children }) => {
         removeFromCart,
         total,
         totalPrice,
+        vatCharge,
         totalAmount,
         handleLogOut,
         shippingCharge,
@@ -102,5 +104,5 @@ const DataProvider = ({ children }) => {
     </DataContext.Provider>
   );
 };
-export const ContextApi = useContext(DataContext);
+
 export default DataProvider;

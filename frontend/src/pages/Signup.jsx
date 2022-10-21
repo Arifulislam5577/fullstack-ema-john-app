@@ -1,24 +1,19 @@
 import React, { useState, useEffect, useContext } from "react";
-import {
-  createUserWithEmailAndPassword,
-  GoogleAuthProvider,
-  signInWithPopup,
-} from "firebase/auth";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { auth } from "../authentication/firebase";
-import { DataContext } from "../context/ContextApi";
+import { ContextApi } from "../context/ContextApi";
+import useRedirect from "../hooks/useRedirect";
+
 const Signup = () => {
-  const { search } = useLocation();
-  const redirectInUrl = new URLSearchParams(search).get("redirect");
-  const redirect = redirectInUrl ? redirectInUrl : "/";
+  const redirect = useRedirect();
   const navigate = useNavigate();
 
-  const { user } = useContext(DataContext);
+  const { user, handleGoogleSignIn } = ContextApi();
+
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const googleProvider = new GoogleAuthProvider();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -28,7 +23,7 @@ const Signup = () => {
     } else {
       try {
         setLoading(true);
-        await createUserWithEmailAndPassword(auth, email, password);
+        await handleCreateUser(email, password);
         setLoading(false);
         setError("");
         setEmail("");
@@ -42,14 +37,6 @@ const Signup = () => {
           .replace(").", "");
         setError(errorMessage);
       }
-    }
-  };
-  const handleGoogleSignIn = async () => {
-    try {
-      await signInWithPopup(auth, googleProvider);
-      setError("");
-    } catch (error) {
-      setError(error.message);
     }
   };
 

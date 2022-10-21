@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 
 const Order = () => {
-  const [disabled, setDisabled] = useState(false);
   return (
     <section className=" py-5 z-0">
       <div className="container">

@@ -18,6 +18,10 @@ const Cart = () => {
     total,
   } = useContext(DataContext);
 
+  const handleCheck = () => {
+    navigate("/login?redirect=/order");
+  };
+
   useEffect(() => {
     if (!cart.length) {
       navigate("/");
@@ -106,7 +110,10 @@ const Cart = () => {
                 <h3>${total}</h3>
               </div>
 
-              <button className="block py-3 px-6 bg-gray-300 text-gray-600 uppercase text-sm w-full">
+              <button
+                onClick={handleCheck}
+                className="block py-3 px-6 bg-gray-300 text-center hover:bg-orange-400 hover:text-white duration-300 text-gray-600 uppercase text-sm w-full"
+              >
                 order now
               </button>
             </div>

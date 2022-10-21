@@ -1,4 +1,4 @@
-import { onAuthStateChanged } from "firebase/auth";
+import { onAuthStateChanged, signOut } from "firebase/auth";
 import { createContext, useEffect, useState } from "react";
 import { auth } from "../authentication/firebase";
 import useFetchData from "../hooks/useFetchData";
@@ -13,7 +13,7 @@ import {
 export const DataContext = createContext();
 
 const DataProvider = ({ children }) => {
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState(null);
   const [loader, setLoader] = useState(false);
   const { data, loading, error } = useFetchData("/api/v1/products");
   const products = data?.data?.products;
@@ -27,22 +27,34 @@ const DataProvider = ({ children }) => {
   const removeFromCart = (id) => {
     deleteItem(id, cart, setCart);
   };
+
+  const handleLogOut = async () => {
+    try {
+      await signOut(auth);
+    } catch (error) {
+      setError(error.message);
+    }
+  };
   const totalPrice = calcTotal(cart, "price");
   const shippingCharge = totalPrice > 500 ? 0 : 50;
   const vatCharge = parseInt(totalPrice * 0.05);
   const totalAmount = calcTotal(cart, "quantity");
   const total = parseInt(totalPrice + shippingCharge + vatCharge);
-
+  console.log(shippingCharge);
   saveCart(cart);
 
   useEffect(() => {
     setLoader(true);
-    onAuthStateChanged(auth, (user) => {
+    const subscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         setUser(user);
-        setLoader(false);
+      } else {
+        setUser(null);
       }
     });
+    setLoader(false);
+
+    return () => subscribe();
   }, []);
 
   return (
@@ -60,6 +72,8 @@ const DataProvider = ({ children }) => {
         total,
         totalPrice,
         totalAmount,
+        handleLogOut,
+        shippingCharge,
       }}
     >
       {children}

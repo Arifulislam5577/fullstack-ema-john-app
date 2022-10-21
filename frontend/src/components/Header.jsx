@@ -1,13 +1,15 @@
+import { signInWithEmailAndPassword } from "firebase/auth";
 import React, { useContext, useState } from "react";
 import { BsCart3, BsHeart } from "react-icons/bs";
 import { FaRegUser } from "react-icons/fa";
+import { FiLogIn } from "react-icons/fi";
 import { ImCross } from "react-icons/im";
 import { Link } from "react-router-dom";
 import { DataContext } from "../context/ContextApi";
 import CartItem from "./CartItem";
 
 const Header = () => {
-  const { totalAmount, cart, totalPrice, loader, user } =
+  const { totalAmount, cart, totalPrice, loader, user, handleLogOut } =
     useContext(DataContext);
   const [showCart, setShowCart] = useState(false);
   const handleShowCart = () => {
@@ -41,9 +43,25 @@ const Header = () => {
             <button>
               <BsHeart color="gray" />
             </button>
-            <button>
-              <FaRegUser color="gray" />
-            </button>
+
+            {loader && (
+              <button>
+                <FaRegUser color="gray" />
+              </button>
+            )}
+            {user ? (
+              <button
+                className="text-xs flex items-center gap-1 border border-gray-300 py-2 px-3"
+                onClick={handleLogOut}
+              >
+                <FiLogIn color="gray" />
+                <span>Logout</span>
+              </button>
+            ) : (
+              <Link to="/login">
+                <FaRegUser color="gray" />
+              </Link>
+            )}
           </nav>
         </div>
         <div

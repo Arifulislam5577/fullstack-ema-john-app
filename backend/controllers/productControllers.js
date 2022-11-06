@@ -5,37 +5,33 @@ import {
   findProduct,
 } from "../services/productService.js";
 import { sliderItems } from "../services/sliderItems.js";
+import ApiFeatures from "../utils/apiFeature.js";
 import { error } from "../utils/error.js";
 
-/**
- 'Bag',
- 'Bottle',
- 'Cap',
- 'Earphones',
- "Men's Boot",
- "Men's Pants",
- "Men's Sneaker"
-*/
 export const getAllProducts = async (req, res, next) => {
   try {
-    const products = await ProductModel.find();
+    const productsArr = await ProductModel.find();
+    const productPerPage = 12;
+    const bestSeller = await bestSellerProduct([...productsArr]);
+    const categories = await ProductModel.distinct("category");
+    const sliderProducts = await sliderItems(categories);
+    const totalProducts = await ProductModel.countDocuments();
+    const ApiFeature = new ApiFeatures(ProductModel.find(), req.query)
+      .search()
+      .filter()
+      .paginate(productPerPage);
 
-    if (products.length > 0) {
-      const bestSeller = await bestSellerProduct([...products]);
-      const categories = await ProductModel.distinct("category");
-      const sliderProducts = await sliderItems(categories);
-      return res.status(200).json({
-        status: 200,
-        success: true,
-        data: {
-          products,
-          sliderProducts,
-          bestSeller,
-        },
-      });
-    } else {
-      throw error("No Product found", 400);
-    }
+    const products = await ApiFeature.query;
+
+    return res.status(200).json({
+      status: 200,
+      success: true,
+      length: products.length,
+      data: {
+        products,
+        totalProducts,
+      },
+    });
   } catch (error) {
     next(error);
   }

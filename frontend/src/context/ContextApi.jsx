@@ -20,11 +20,18 @@ export const DataContext = createContext();
 
 const DataProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [page, setPage] = useState(1);
+  const [keyword, setKyword] = useState("");
+  const [category, setCategory] = useState("");
   const [loader, setLoader] = useState(true);
   const [cart, setCart] = useState(getCart());
+  const handleCategory = (e) => {
+    setCategory(e);
+  };
 
   const googleProvider = new GoogleAuthProvider();
-  const { data, loading, error } = useFetchData("/api/v1/products");
+
+  const { data, loading, error } = useFetchData(category, page, keyword);
 
   const products = data?.data?.products;
 
@@ -98,6 +105,7 @@ const DataProvider = ({ children }) => {
         shippingCharge,
         handleGoogleSignIn,
         handleCreateUser,
+        handleCategory,
       }}
     >
       {children}

@@ -2,14 +2,17 @@
   "name": "ema-john",
   "version": "1.0.0",
   "description": "",
-  "main": "app.js",
+  "main": "index.js",
   "type": "module",
+  "engines": {
+    "node": "16.17.0"
+  },
   "scripts": {
-    "start": "node backend/app.js",
-    "server": "nodemon backend/app.js",
+    "start": "node index.js",
+    "server": "nodemon index.js",
     "client": "npm run dev --prefix frontend",
     "dev": "concurrently \"npm run server\" \"npm run client",
-    "seeder": "node backend/utils/seeder.js"
+    "seeder": "node ./backend/utils/seeder.js"
   },
   "keywords": [],
   "author": "",
